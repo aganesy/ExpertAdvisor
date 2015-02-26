@@ -7,7 +7,7 @@
 #property link      "http://www.metaquotes.net"
 #property library
 
-#include "..\MyInclude\Define.mqh"
+#include "..\_Include\Define.mqh"
 
 
 // Heikin Ashi
