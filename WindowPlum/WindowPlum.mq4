@@ -8,20 +8,20 @@
 
 
 // MyInclude
-#include "MyInclude/Define.mqh"
+#include "..\_Include\Define.mqh"
 
 
 // MyLib
-#import "MyLib/MyPosition.ex4"
+#import "..\_Lib\MyPosition.ex4"
 void GetPositionBUY(double mLot=0,int amount=ALL);
 void GetPositionSELL(double mLot=0,int amount=ALL);
 void MyOrderClose();
 int Emergency(int pips=CLOSE_PIPS);
 
-#import "MyLib/ParabolicSAR.ex4"
+#import "..\_Lib\ParabolicSAR.ex4"
 int ParabolicTrend(double SAR_Maximum=0.2,double SAR_Step=0.02,int n=0);
 
-#import "MYLib/HeikinAshi.ex4"
+#import "..\_Lib\HeikinAshi.ex4"
 double HeikinAshiOpen(int n=0);
 double HeikinAshiClose(int n=0);
 
