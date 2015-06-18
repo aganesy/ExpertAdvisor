@@ -8,33 +8,26 @@
 
 
 
-#define GOBUY   100
-#define GOSELL  -100
-#define BACK   -999
-#define QUO     999
+// Analytics Result
+#define GOBUY			100
+#define GOSELL			-100
+#define BACK			-999
+#define QUO				999
 
 // Now Trend
-#define LANGE  101
-#define UP     102
-#define DOWN   103
+#define TREND_LANGE		101
+#define TREND_UP		102
+#define TREND_DOWN		103
 
 // OrderType
-#define NON_ORDER 0
-#define BUYS      1
-#define SELLS     2
+#define NON_ORDER		0
+#define BUYS			1
+#define SELLS			2
 
 // Get Position Property
-#define LOTBY     1300
-#define LEVERAGE  20
-#define ALL       1
-#define HALF      2
-#define QUAT      4
-
-// Emergency
-#define CLOSE_PIPS   -80
-
-
-#define SAR_MAXIMUM_DEFAULT   0.2
-#define SAR_STEP_DEFAULT      0.02
-
+#define LOTBY			10000
+#define MAX_LEVERAGE	200
+#define ALL				1
+#define HALF			2
+#define QUAT			4
 

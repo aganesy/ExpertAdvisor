@@ -12,6 +12,9 @@
 #import "OrderType.ex4"
 
 
+#define SAR_MAXIMUM_DEFAULT		0.2
+#define SAR_STEP_DEFAULT		0.02
+
 // InportFunction
 #import "HeikinAshi.ex4"
    double HeikinAshiOpen(int n = 0);
@@ -19,7 +22,7 @@
 
 
 // Parabolic_SAR
-int IsParabolic(double SAR_Maximum=0.2, double SAR_Step=0.02)
+int IsParabolic(double SAR_Maximum = SAR_MAXIMUM_DEFAULT, double SAR_Step = SAR_STEP_DEFAULT)
 {
    double SAR0 = iSAR(NULL, 0, SAR_Step, SAR_Maximum, 0);
    double SAR1 = iSAR(NULL, 0, SAR_Step, SAR_Maximum, 1);
@@ -36,7 +39,7 @@ int IsParabolic(double SAR_Maximum=0.2, double SAR_Step=0.02)
    return (QUO);
 }
 
-int ParabolicTrend(double SAR_Maximum=0.2, double SAR_Step=0.02, int n = 0)
+int ParabolicTrend(double SAR_Maximum = SAR_MAXIMUM_DEFAULT, double SAR_Step = SAR_STEP_DEFAULT, int n = 0)
 {
    double SAR = iSAR(NULL, 0, SAR_Step, SAR_Maximum, n);
    
@@ -49,7 +52,7 @@ int ParabolicTrend(double SAR_Maximum=0.2, double SAR_Step=0.02, int n = 0)
    return (QUO);
 }
 
-int ParabolicObserverBack(double SAR_Maximum=0.2, double SAR_Step=0.02)
+int ParabolicObserverBack(double SAR_Maximum = SAR_MAXIMUM_DEFAULT, double SAR_Step = SAR_STEP_DEFAULT)
 {
    //int type;
    
@@ -74,7 +77,7 @@ int ParabolicObserverBack(double SAR_Maximum=0.2, double SAR_Step=0.02)
    return (QUO);
 }
 
-int ParabolicMomentum(double SAR_Maximum=0.2, double SAR_Step=0.02)
+int ParabolicMomentum(double SAR_Maximum = SAR_MAXIMUM_DEFAULT, double SAR_Step = SAR_STEP_DEFAULT)
 {
    double SAR0 = iSAR(NULL, 0, SAR_Step, SAR_Maximum, 0);
    double SAR1 = iSAR(NULL, 0, SAR_Step, SAR_Maximum, 1);
