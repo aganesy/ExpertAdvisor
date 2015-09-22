@@ -1,11 +1,10 @@
 //+------------------------------------------------------------------+
 //|                                                       Define.mq4 |
-//|                        Copyright 2013, MetaQuotes Software Corp. |
-//|                                        http://www.metaquotes.net |
+//|                              Copyright 2013-2015, Senaga YUSUKE. |
+//|                                               mi081321@gmail.com |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2013, MetaQuotes Software Corp."
-#property link      "http://www.metaquotes.net"
-
+#property copyright "Copyright 2013-2015, Senaga YUSUKE."
+#property link      "mi081321@gmail.com"
 
 
 // Analytics Result
