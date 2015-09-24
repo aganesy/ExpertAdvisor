@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                           BollingerBands.mqh.mq4 |
+//|                                                 TripleWindow.mq4 |
 //|                        Copyright 2013, MetaQuotes Software Corp. |
 //|                                        http://www.metaquotes.net |
 //+------------------------------------------------------------------+
@@ -10,20 +10,29 @@
 #include "..\_Include\Define.mqh"
 
 
-// Bollinger_Bands
-int BandsExValue(int deviation = 2)
+// Triple_Window
+int TripleWindow()
 {
-	if (iBands(NULL, 0, 20, deviation, 0, PRICE_LOW, MODE_LOWER, 0) > Low[0]){
-		return (GOBUY);
+	int count;
+
+	count = 0;
+	for (int i = 0; i < 4; i++){
+		if (Open[i] > High[i + 1] || Low[i] > Close[i + 1]){
+			count++;
+		}
 	}
-	if (iBands(NULL, 0, 20, deviation, 0, PRICE_HIGH, MODE_UPPER, 0) > High[0]){
+	if (3 <= count){
 		return (GOSELL);
 	}
+
+	count = 0;
+	for (i = 0; i < 4; i++){
+		if (Open[i] < Low[i + 1] || High[i] < Close[i + 1]){
+			count++;
+		}
+	}
+	if (3 <= count){
+		return (GOBUY);
+	}
 }
-
-
-
-
-
-
 
