@@ -14,17 +14,17 @@
 
 double HeikinAshiOpen(int n = 0)
 {
-   return (iCustom(NULL,0,"Heiken Ashi",2,n));
+	return (iCustom(NULL,0,"Heiken Ashi",2,n));
 }
 
 double HeikinAshiClose(int n = 0)
 {
-   return (iCustom(NULL,0,"Heiken Ashi",3,n));
+	return (iCustom(NULL,0,"Heiken Ashi",3,n));
 }
 
 double HeikinAshiDiff(int n = 0)
 {
-   return (HeikinAshiOpen(n) - HeikinAshiClose(n));
+	return (HeikinAshiOpen(n) - HeikinAshiClose(n));
 }
 
 

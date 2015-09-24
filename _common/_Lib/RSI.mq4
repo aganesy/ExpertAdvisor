@@ -12,11 +12,11 @@
 
 
 // RSI
-// ReturnValue >=  20 : Bid!
-// ReturnValue <= -20 : Ask!
+// ReturnValue >=  20 : BUY TREND!
+// ReturnValue <= -20 : SELL TREND!
 int RSIExValue(int n = 0)
 {
-   return (iRSI(NULL, 0, 14, PRICE_CLOSE, n) - 50);
+	return (iRSI(NULL, 0, 14, PRICE_CLOSE, n) - 50);
 }
 
 

@@ -13,25 +13,28 @@
 // Triple_Window
 int TripleWindow()
 {
-   int count;
-   
-   count = 0;
-   for (int i = 0; i < 5; i++){
-      if (Open[i] > High[i + 1] || Low[i] > Close[i + 1]){
-         count++;
-      }
-   }
-   if (3 <= count){
-      return (GOSELL);
-   }
-   
-   count = 0;
-   for (i = 0; i < 5; i++){
-      if (Open[i] < Low[i + 1] || High[i] < Close[i + 1]){
-         count++;
-      }
-   }
-   if (3 <= count){
-      return (GOBUY);
-   }
+	int count;
+
+	count = 0;
+	for (int i = 0; i < 4; i++){
+		if (Open[i] > High[i + 1] || Low[i] > Close[i + 1]){
+			count++;
+		}
+	}
+	if (3 <= count){
+		return (GOSELL);
+	}
+
+	count = 0;
+	for (i = 0; i < 4; i++){
+		if (Open[i] < Low[i + 1] || High[i] < Close[i + 1]){
+			count++;
+		}
+	}
+	if (3 <= count){
+		return (GOBUY);
+	}
 }
+
+
+
