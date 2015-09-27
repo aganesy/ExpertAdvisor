@@ -51,13 +51,22 @@ public:
 	{
 	}
 
-	void SetStopLossPips(int pips)
+	void SetStopLossLevel(int pips)
 	{
 		m_nSLPips = pips;
 	}
-	int GetStopLossPips()
+	int GetStopLossLevel()
 	{
 		return m_nSLPips;
+	}
+
+	void SetTakeProfitLevel(int pips)
+	{
+		m_nTPPips = pips;
+	}
+	int GetTakeProfitLevel()
+	{
+		return m_nTPPips;
 	}
 
 	void SetMagicNumber(int number)
@@ -69,8 +78,40 @@ public:
 		return m_nMagicNumber;
 	}
 
+	void SetTicketNumber_(int number)
+	{
+		m_nTicketNumber = number;
+	}
+	int GetTicketNumber()
+	{
+		return m_nTicketNumber;
+	}
+
+	void SetOrderPrice(double price)
+	{
+		m_dOrderPrice = price;
+	}
+	double GetOrderPrice()
+	{
+		return m_dOrderPrice;
+	}
+
+	int GetOrderType()
+	{
+		if (OrderSelect(GetTicketNumber(), SELECT_BY_TICKET, MODE_TRADES))
+		{
+			return OrderType();
+		}
+		return -1;
+	}
+
 private:
 	int m_nMagicNumber;
+	int m_nTicketNumber;
 	int m_nSLPips;
+	int m_nTPPips;
+
+	double m_dOrderPrice;
+
 }; //}}}
 
