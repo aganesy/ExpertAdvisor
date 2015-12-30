@@ -88,6 +88,15 @@ public:
 	{
 		bool bResult = true;
 
+		// GetTicketNumber から OrderType を取得
+		// GetTicketNumber から 現在価格を取得（Bid or Ask）
+		// 現在価格と SLLevel を比較
+		// TPLevel が現在価格を超えていれば
+		// 　→ 新しい TPLevel をセット
+		// 　→ TPLevel が超えたフラグを立てる
+		// フラグが立っている && TPLevel が現在価格を割っている
+		// 　→ リリースしましょう
+
 		return bResult;
 	}
 
