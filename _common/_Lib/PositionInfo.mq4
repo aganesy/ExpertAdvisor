@@ -61,6 +61,8 @@ class CPositionInfo //{{{
 public:
 	CPositionInfo()
 	{
+		m_bIsSLRelease = false;
+		m_bIsTPRelease = false;
 	}
 	virtual ~CPositionInfo()
 	{
@@ -69,10 +71,34 @@ public:
 	// Stop Loss 監視
 	bool OvserveStopLoss(double pips)
 	{
-		bool bResult = true;
+		bool bResult = false;
 
-		// GetTicketNumber から OrderType を取得
+		// GetOrderType から OrderType を取得
+		int nOrderType = GetOrderType();
 		// GetTicketNumber から 現在価格を取得（Bid or Ask）
+		double dNowPrice = 0;
+		switch (nOrderType){
+		case OP_BUY:
+		case OP_BUYLIMIT:
+		case OP_BUYSTOP:
+			nNowPrice = Bid;
+			if (m_dSLPrice + m_dSLLevel < dNowPrice){
+				m_dSLPrice = dNowPrice - m_dSLLevel;
+				m_bIsSLRelease = true;
+			}
+			else if (m_bIsSLRelease && m_dSLPrice > dNowPrice){
+			}
+			break;
+
+		case OP_SELL:
+		case OP_SELLLIMIT:
+		case OP_SELLSTOP:
+			nNowPrice = Ask;
+			break;
+
+		default:
+			break;
+		}
 		// 現在価格と SLLevel を比較
 		// SLLevel が現在価格を超えていれば
 		// 　→ 新しい SLLevel をセット
@@ -92,23 +118,39 @@ public:
 	}
 
 	// Stop Loss
-	void SetStopLossLevel(double price)
+	void SetStopLossPrice(double price)
 	{
-		m_nSLLebel = price;
+		m_nSLPrice = price;
+	}
+	int GetStopLossPrice()
+	{
+		return m_nSLPrice;
+	}
+	void SetStopLossLevel(double level)
+	{
+		m_nSLLevel = level;
 	}
 	int GetStopLossLevel()
 	{
-		return m_nSLPips;
+		return m_nSLLevel;
 	}
 
 	// Take Profit
-	void SetTakeProfitLevel(double price)
+	void SetTakeProfitPrice(double price)
 	{
-		m_nTPLevel = price;
+		m_nTPPrice = price;
+	}
+	int GetTakeProfitPrice()
+	{
+		return m_nTPPrice;
+	}
+	void SetTakeProfitLevel(double level)
+	{
+		m_nTPLevel = level;
 	}
 	int GetTakeProfitLevel()
 	{
-		return m_nTPPips;
+		return m_nTPLevel;
 	}
 
 	// Magic Number
@@ -152,12 +194,18 @@ public:
 	}
 
 private:
+	bool m_bIsSLRelease;
+	bool m_bIsTKRelease;
+
 	int m_nMagicNumber;
 	int m_nTicketNumber;
-	int m_nSLLevel;
-	int m_nTPLevel;
+
+	double m_dSLLevel;
+	double m_dTPLevel;
 
 	double m_dOrderPrice;
+	double m_dSLPrice;
+	double m_dTPPrice;
 
 }; //}}}
 
