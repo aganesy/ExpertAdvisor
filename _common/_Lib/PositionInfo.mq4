@@ -87,6 +87,7 @@ public:
 				m_bIsSLRelease = true;
 			}
 			else if (m_bIsSLRelease && m_dSLPrice > dNowPrice){
+				// リリースする
 			}
 			break;
 
@@ -94,6 +95,13 @@ public:
 		case OP_SELLLIMIT:
 		case OP_SELLSTOP:
 			nNowPrice = Ask;
+			if (m_dSLPrice + m_dSLLevel > dNowPrice){
+				m_dSLPrice = dNowPrice + m_dSLLevel;
+				m_bIsSLRelease = true;
+			}
+			else if (m_bIsSLRelease && m_dSLPrice < dNowPrice){
+				// リリースする
+			}
 			break;
 
 		default:
