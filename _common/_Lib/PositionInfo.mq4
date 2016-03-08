@@ -68,6 +68,11 @@ public:
 	{
 	}
 
+	// Release
+	bool Release()
+	{
+	}
+
 	// Stop Loss 監視
 	bool OvserveStopLoss(double pips)
 	{
@@ -77,17 +82,24 @@ public:
 		int nOrderType = GetOrderType();
 		// GetTicketNumber から 現在価格を取得（Bid or Ask）
 		double dNowPrice = 0;
+		// 現在価格と SLLevel を比較
 		switch (nOrderType){
 		case OP_BUY:
 		case OP_BUYLIMIT:
 		case OP_BUYSTOP:
 			nNowPrice = Bid;
+			// SLLevel が現在価格を超えていれば
+			// 　→ 新しい SLLevel をセット
+			// 　→ SLLevel が超えたフラグを立てる
 			if (m_dSLPrice + m_dSLLevel < dNowPrice){
 				m_dSLPrice = dNowPrice - m_dSLLevel;
 				m_bIsSLRelease = true;
 			}
+			// フラグが立っている && SLLevel が現在価格を割っている
+			// 　→ リリースしましょう
 			else if (m_bIsSLRelease && m_dSLPrice > dNowPrice){
 				// リリースする
+				bResult = true;
 			}
 			break;
 
@@ -95,24 +107,24 @@ public:
 		case OP_SELLLIMIT:
 		case OP_SELLSTOP:
 			nNowPrice = Ask;
+			// SLLevel が現在価格を超えていれば
+			// 　→ 新しい SLLevel をセット
+			// 　→ SLLevel が超えたフラグを立てる
 			if (m_dSLPrice + m_dSLLevel > dNowPrice){
 				m_dSLPrice = dNowPrice + m_dSLLevel;
 				m_bIsSLRelease = true;
 			}
+			// フラグが立っている && SLLevel が現在価格を割っている
+			// 　→ リリースしましょう
 			else if (m_bIsSLRelease && m_dSLPrice < dNowPrice){
 				// リリースする
+				bResult = true;
 			}
 			break;
 
 		default:
 			break;
 		}
-		// 現在価格と SLLevel を比較
-		// SLLevel が現在価格を超えていれば
-		// 　→ 新しい SLLevel をセット
-		// 　→ SLLevel が超えたフラグを立てる
-		// フラグが立っている && SLLevel が現在価格を割っている
-		// 　→ リリースしましょう
 
 		return bResult;
 	}
