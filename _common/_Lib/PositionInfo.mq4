@@ -63,13 +63,20 @@ public:
 	{
 		m_bIsSLRelease = false;
 		m_bIsTPRelease = false;
+
+		m_cTimeStamp = new CTimeStamp();
 	}
 	virtual ~CPositionInfo()
 	{
 	}
 
-	// Release
-	bool Release()
+	// Open
+	bool Open()
+	{
+	}
+
+	// Close
+	bool Close()
 	{
 	}
 
@@ -222,6 +229,16 @@ public:
 		return -1;
 	}
 
+	// OpenTime
+	void SetOpenTime(CTimeStamp time)
+	{
+		m_cTimeStamp = time;
+	}
+	CTimeStamp GetOpenTime()
+	{
+		return m_cTimeStamp;
+	}
+
 private:
 	bool m_bIsSLRelease;
 	bool m_bIsTKRelease;
@@ -235,6 +252,8 @@ private:
 	double m_dOrderPrice;
 	double m_dSLPrice;
 	double m_dTPPrice;
+
+	CTimeStamp m_cTimeStamp;
 
 }; //}}}
 
