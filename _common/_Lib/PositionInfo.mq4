@@ -1,6 +1,6 @@
 //# vim:set foldmethod=marker:
 //+------------------------------------------------------------------+
-//|                                             PositionInfo.mqh.mq4 |
+//|                                                 PositionInfo.mq4 |
 //|                                   Copyright 2015, SENAGA Yusuke. |
 //|                                               mi081321@gmail.com |
 //+------------------------------------------------------------------+
@@ -9,6 +9,7 @@
 #property library
 
 #include "..\_Include\Define.mqh"
+#include "TimeStamp.mq4"
 
 class CPositionInfoList //{{{
 {
