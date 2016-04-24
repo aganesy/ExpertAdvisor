@@ -65,20 +65,101 @@ public:
 		m_bIsSLRelease = false;
 		m_bIsTPRelease = false;
 
-		m_cTimeStamp = new CTimeStamp();
+		m_nMagicNumber		= 0;
+		m_nTicketNumber		= 0;
+
+		m_dSLLevel			= 0.0;
+		m_dTPLevel			= 0.0;
+
+		m_dOrderPrice		= 0.0;
+		m_dSLPrice			= 0.0;
+		m_dTPPrice			= 0.0;
+
+		m_strOrderComment	= "";
+
+		m_cTimeStamp		= new CTimeStamp();
 	}
-	virtual ~CPositionInfo()
+	~CPositionInfo()
 	{
 	}
 
 	// Open
-	bool Open()
+	bool Open(int orderType, double lots)
 	{
+		bool bResult = false;
+		if (lots > 0.0)
+		{
+			string strVarName = "";
+			for (int i = 1; i < MAX_INT_COUNT; i++) {
+				strVarName = DoubleToStr(i, 0);
+				int nVarValue = GlobalVariableGet(strVarName);
+				if (!nVarValue)
+				{
+					SetMagicNumber(i);
+					break;
+				}
+			}
+			if (!GetMagicNumber())
+			{
+				switch (orderType)
+				{
+				case OP_BUY:
+				case OP_BUYLIMIT:
+				case OP_BUYSTOP:
+					SetOrderPrice(Bid);
+					SetOrderComment("Buy");
+					break;
+
+				case OP_SELL:
+				case OP_SELLLIMIT:
+				case OP_SELLSTOP:
+					SetOrderPrice(Ask);
+					SetOrderComment("Sell");
+					break;
+
+				default:
+					break;
+				}
+				bResult =  OrderSend(Symbol(), orderType, lots, GetOrderPrice(), 3, 0, 0, GetOrderComment(), GetMagicNumber(), 0, Red);
+
+				OrderSelect(OrdersTotal() - 1, SELECT_BY_POS, MODE_TRADES);
+				SetTicketNumber(OrderTicket());
+				GlobalVariableSet(strVarName, 1);
+			}
+		}
+
+		return bResult;
 	}
 
 	// Close
 	bool Close()
 	{
+		bool bResult = false;
+		if (OrderSelect(GetTicketNumber(), SELECT_BY_TICKET, MODE_TRADES))
+		{
+			double dClosePrice = 0.0;
+			switch (OrderType())
+			{
+			case OP_BUY:
+			case OP_BUYLIMIT:
+			case OP_BUYSTOP:
+				dClosePrice = Bid;
+				break;
+
+			case OP_SELL:
+			case OP_SELLLIMIT:
+			case OP_SELLSTOP:
+				dClosePrice = Ask;
+				break;
+
+			default:
+				break;
+			}
+
+			bResult = OrderClose(GetTicketNumber(), OrderLots(), dClosePrice, 3, Blue);
+		}
+
+		return bResult;
 	}
 
 	// Stop Loss ŠÄŽ‹
@@ -220,6 +301,16 @@ public:
 		return m_dOrderPrice;
 	}
 
+	// Order Comment
+	void SetOrderComment(string comment)
+	{
+		m_strOrderComment = comment;
+	}
+	double GetOrderComment()
+	{
+		return m_strOrderComment;
+	}
+
 	// Order Type
 	int GetOrderType()
 	{
@@ -253,6 +344,8 @@ private:
 	double m_dOrderPrice;
 	double m_dSLPrice;
 	double m_dTPPrice;
+
+	string m_strOrderComment;
 
 	CTimeStamp m_cTimeStamp;
 

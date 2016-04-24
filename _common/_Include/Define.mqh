@@ -30,3 +30,7 @@
 #define HALF			2
 #define QUAT			4
 
+// Size
+#define MAX_INT_COUNT	0xFFFFFFF;
+
+
