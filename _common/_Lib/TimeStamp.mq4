@@ -58,14 +58,15 @@ public:
 	{
 		return TimeDayOfWeek(m_dtTime);
 	}
-	int GetDayOfYear()
+	int GetDayOfYear(datetime time)
 	{
 		return TimeDayOfYear(m_dtTime);
 	}
 
 	int GetElapsedYear()
 	{
-		int nElapsedYear = TimeYear(TimeCurrent()) - TimeYear(m_dtTime);
+		int nElapsedYear = TimeYear(time) - TimeYear(m_dtTime);
+
 		if (nElapsedYear < 0)
 		{
 			nElapsedYear = 0;
@@ -74,9 +75,12 @@ public:
 		return nElapsedYear;
 	}
 
-	int GetElapsedMonth()
+	int GetElapsedMonth(datetime time)
 	{
-		int nElapsedMonth = TimeMonth(TimeCurrent()) - TimeMonth(m_dtTime);
+		int nElapsedMonth = 0;
+		nElapsedMonth += (GetElapsedYear(time) * 12);
+		nElapsedMonth += (TimeMonth(time) - TimeMonth(m_dtTime));
+
 		if (nElapsedMonth < 0)
 		{
 			nElapsedMonth = 0;
@@ -85,9 +89,12 @@ public:
 		return nElapsedMonth;
 	}
 
-	int GetElapsedDay()
+	int GetElapsedDay(datetime time)
 	{
-		int nElapsedDay = TimeDay(TimeCurrent()) - TimeDay(m_dtTime);
+		int nElapsedDay = 0;
+		nElapsedDay += (GetElapsedYear(time) * 365);
+		nElapsedDay += (TimeDayOfYear(time) - TimeDayOfYear(m_dtTime));
+
 		if (nElapsedDay < 0)
 		{
 			nElapsedDay = 0;
@@ -96,9 +103,12 @@ public:
 		return nElapsedDay;
 	}
 
-	int GetElapsedHour()
+	int GetElapsedHour(datetime time)
 	{
-		int nElapsedHour = TimeHour(TimeCurrent()) - TimeHour(m_dtTime);
+		int nElapsedHour = 0;
+		nElapsedHour += (GetElapsedDay(time) * 24);
+		nElapsedHour += (TimeHour(time) - TimeHour(m_dtTime));
+
 		if (nElapsedHour < 0)
 		{
 			nElapsedHour = 0;
@@ -107,9 +117,12 @@ public:
 		return nElapsedHour;
 	}
 
-	int GetElapsedMinute()
+	int GetElapsedMinute(datetime time)
 	{
-		int nElapsedMinute = TimeMinute(TimeCurrent()) - TimeMinute(m_dtTime);
+		int nElapsedMinute = 0;
+		nElapsedMinute += (GetElapsedHour(time) * 60);
+		nElapsedMinute += (TimeMinute(time) - TimeMinute(m_dtTime));
+
 		if (nElapsedMinute < 0)
 		{
 			nElapsedMinute = 0;
@@ -118,9 +131,12 @@ public:
 		return nElapsedMinute;
 	}
 
-	int GetElapsedSecond()
+	int GetElapsedSecond(datetime time)
 	{
-		int nElapsedSecond = TimeSeconds(TimeCurrent()) - TimeSeconds(m_dtTime);
+		int nElapsedSecond = 0;
+		nElapsedSecond += (GetElapsedMinute(time) * 60);
+		nElapsedSecond += (TimeSeconds(time) - TimeSeconds(m_dtTime));
+
 		if (nElapsedSecond < 0)
 		{
 			nElapsedSecond = 0;
