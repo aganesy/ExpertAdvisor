@@ -63,7 +63,7 @@ public:
 		return TimeDayOfYear(m_dtTime);
 	}
 
-	int GetElapsedYear()
+	int GetElapsedYear(datetime time)
 	{
 		int nElapsedYear = TimeYear(time) - TimeYear(m_dtTime);
 
@@ -78,7 +78,10 @@ public:
 	int GetElapsedMonth(datetime time)
 	{
 		int nElapsedMonth = 0;
-		nElapsedMonth += (GetElapsedYear(time) * 12);
+		int nElapsedYear = 0;
+
+		// year‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßyear‚ğæ“¾‚·‚é
+		nElapsedMonth += (nElapsedYear * 12);
 		nElapsedMonth += (TimeMonth(time) - TimeMonth(m_dtTime));
 
 		if (nElapsedMonth < 0)
@@ -92,7 +95,11 @@ public:
 	int GetElapsedDay(datetime time)
 	{
 		int nElapsedDay = 0;
-		nElapsedDay += (GetElapsedYear(time) * 365);
+		int nElapsedYear = 0;
+
+		// month‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚èAmonth‚ÍŒ–ˆ‚Ì“ú”‚ªˆÙ‚È‚é‚Ì‚Å
+		// Œo‰ßyear‚ğæ“¾‚µA365‚ÅŠ„‚é
+		nElapsedDay += (nElapsedYear * 365);
 		nElapsedDay += (TimeDayOfYear(time) - TimeDayOfYear(m_dtTime));
 
 		if (nElapsedDay < 0)
@@ -106,7 +113,10 @@ public:
 	int GetElapsedHour(datetime time)
 	{
 		int nElapsedHour = 0;
-		nElapsedHour += (GetElapsedDay(time) * 24);
+		int nElapsedDay = 0;
+
+		// “ú‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßday‚©‚çæ“¾‚·‚é
+		nElapsedHour += (nElapsedDay * 24);
 		nElapsedHour += (TimeHour(time) - TimeHour(m_dtTime));
 
 		if (nElapsedHour < 0)
@@ -120,7 +130,10 @@ public:
 	int GetElapsedMinute(datetime time)
 	{
 		int nElapsedMinute = 0;
-		nElapsedMinute += (GetElapsedHour(time) * 60);
+		int nElapsedHour = 0;
+
+		// hour‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßhour‚©‚çæ“¾‚·‚é
+		nElapsedMinute += (nElapsedHour * 60);
 		nElapsedMinute += (TimeMinute(time) - TimeMinute(m_dtTime));
 
 		if (nElapsedMinute < 0)
@@ -134,7 +147,10 @@ public:
 	int GetElapsedSecond(datetime time)
 	{
 		int nElapsedSecond = 0;
-		nElapsedSecond += (GetElapsedMinute(time) * 60);
+		int nElapsedMunite = 0;
+
+		// munite‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßmunite‚©‚çæ“¾‚·‚é
+		nElapsedSecond += (nElapsedMunite * 60);
 		nElapsedSecond += (TimeSeconds(time) - TimeSeconds(m_dtTime));
 
 		if (nElapsedSecond < 0)
