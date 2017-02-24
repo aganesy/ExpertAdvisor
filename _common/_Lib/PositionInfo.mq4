@@ -21,10 +21,16 @@ public:
 	{
 	}
 
+	int length()
+	{
+		return ArrayRange(m_List, 0);
+	}
+
 	bool resize(int size)
 	{
 		ArrayResize(m_List, size);
 	}
+
 	void insert(int index, CPositionInfo element)
 	{
 		ArrayResize(m_List, ArrayRange(m_List, 0) + 1);
@@ -34,6 +40,7 @@ public:
 
 		m_List[index] = element;
 	}
+
 	void delete(int index)
 	{
 		for (int i = index; i < ArrayRange(m_List, 0) - 1; i++){
@@ -42,6 +49,7 @@ public:
 
 		ArrayResize(ArrayRange(m_List, 0) - 1);
 	}
+
 	void push_back(CPositionInfo elemnt)
 	{
 		ArrayRisize(m_List, ArrayRange(m_List, 0) + 1);
@@ -59,6 +67,24 @@ private:
 
 class CPositionInfo //{{{
 {
+private:
+	bool m_bIsSLRelease;
+	bool m_bIsTKRelease;
+
+	int m_nMagicNumber;
+	int m_nTicketNumber;
+
+	double m_dSLLevel;
+	double m_dTPLevel;
+
+	double m_dOrderPrice;
+	double m_dSLPrice;
+	double m_dTPPrice;
+
+	string m_strOrderComment;
+
+	CTimeStamp m_cTimeStamp;
+
 public:
 	CPositionInfo()
 	{
@@ -330,24 +356,5 @@ public:
 	{
 		return m_cTimeStamp;
 	}
-
-private:
-	bool m_bIsSLRelease;
-	bool m_bIsTKRelease;
-
-	int m_nMagicNumber;
-	int m_nTicketNumber;
-
-	double m_dSLLevel;
-	double m_dTPLevel;
-
-	double m_dOrderPrice;
-	double m_dSLPrice;
-	double m_dTPPrice;
-
-	string m_strOrderComment;
-
-	CTimeStamp m_cTimeStamp;
-
 }; //}}}
 

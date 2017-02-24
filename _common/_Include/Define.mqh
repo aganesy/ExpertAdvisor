@@ -1,9 +1,9 @@
 //+------------------------------------------------------------------+
 //|                                                       Define.mqh |
-//|                              Copyright 2013-2015, SENAGA Yusuke. |
+//|                                   Copyright 2013, SENAGA Yusuke. |
 //|                                               mi081321@gmail.com |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2013-2015, SENAGA Yusuke."
+#property copyright "Copyright 2013, SENAGA Yusuke."
 #property link      "mi081321@gmail.com"
 
 
@@ -31,6 +31,5 @@
 #define QUAT			4
 
 // Size
-#define MAX_INT_COUNT	0xFFFFFFF;
-
+#define LONG_MAX_COUNT	0xFFFFFFFF;
 

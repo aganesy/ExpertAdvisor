@@ -58,14 +58,14 @@ public:
 	{
 		return TimeDayOfWeek(m_dtTime);
 	}
-	int GetDayOfYear(datetime time)
+	int GetDayOfYear()
 	{
 		return TimeDayOfYear(m_dtTime);
 	}
 
-	int GetElapsedYear(datetime time)
+	int GetElapsedYear(datetime now)
 	{
-		int nElapsedYear = TimeYear(time) - TimeYear(m_dtTime);
+		int nElapsedYear = TimeYear(now) - TimeYear(m_dtTime);
 
 		if (nElapsedYear < 0)
 		{
@@ -75,14 +75,14 @@ public:
 		return nElapsedYear;
 	}
 
-	int GetElapsedMonth(datetime time)
+	int GetElapsedMonth(datetime now)
 	{
 		int nElapsedMonth = 0;
 		int nElapsedYear = 0;
 
 		// year‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßyear‚ðŽæ“¾‚·‚é
 		nElapsedMonth += (nElapsedYear * 12);
-		nElapsedMonth += (TimeMonth(time) - TimeMonth(m_dtTime));
+		nElapsedMonth += (TimeMonth(now) - TimeMonth(m_dtTime));
 
 		if (nElapsedMonth < 0)
 		{
@@ -92,7 +92,7 @@ public:
 		return nElapsedMonth;
 	}
 
-	int GetElapsedDay(datetime time)
+	int GetElapsedDay(datetime now)
 	{
 		int nElapsedDay = 0;
 		int nElapsedYear = 0;
@@ -100,7 +100,7 @@ public:
 		// month‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚èAmonth‚ÍŒŽ–ˆ‚Ì“ú”‚ªˆÙ‚È‚é‚Ì‚Å
 		// Œo‰ßyear‚ðŽæ“¾‚µA365‚ÅŠ„‚é
 		nElapsedDay += (nElapsedYear * 365);
-		nElapsedDay += (TimeDayOfYear(time) - TimeDayOfYear(m_dtTime));
+		nElapsedDay += (TimeDayOfYear(now) - TimeDayOfYear(m_dtTime));
 
 		if (nElapsedDay < 0)
 		{
@@ -110,14 +110,14 @@ public:
 		return nElapsedDay;
 	}
 
-	int GetElapsedHour(datetime time)
+	int GetElapsedHour(datetime now)
 	{
 		int nElapsedHour = 0;
 		int nElapsedDay = 0;
 
 		// “ú‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßday‚©‚çŽæ“¾‚·‚é
 		nElapsedHour += (nElapsedDay * 24);
-		nElapsedHour += (TimeHour(time) - TimeHour(m_dtTime));
+		nElapsedHour += (TimeHour(now) - TimeHour(m_dtTime));
 
 		if (nElapsedHour < 0)
 		{
@@ -127,14 +127,14 @@ public:
 		return nElapsedHour;
 	}
 
-	int GetElapsedMinute(datetime time)
+	int GetElapsedMinute(datetime now)
 	{
 		int nElapsedMinute = 0;
 		int nElapsedHour = 0;
 
 		// hour‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßhour‚©‚çŽæ“¾‚·‚é
 		nElapsedMinute += (nElapsedHour * 60);
-		nElapsedMinute += (TimeMinute(time) - TimeMinute(m_dtTime));
+		nElapsedMinute += (TimeMinute(now) - TimeMinute(m_dtTime));
 
 		if (nElapsedMinute < 0)
 		{
@@ -144,14 +144,14 @@ public:
 		return nElapsedMinute;
 	}
 
-	int GetElapsedSecond(datetime time)
+	int GetElapsedSecond(datetime now)
 	{
 		int nElapsedSecond = 0;
-		int nElapsedMunite = 0;
+		int nElapsedMinute = 0;
 
-		// munite‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßmunite‚©‚çŽæ“¾‚·‚é
-		nElapsedSecond += (nElapsedMunite * 60);
-		nElapsedSecond += (TimeSeconds(time) - TimeSeconds(m_dtTime));
+		// minute‚ÌŒJ‚èã‚ª‚è‚ª‚ ‚é‚Ì‚ÅŒo‰ßminute‚©‚çŽæ“¾‚·‚é
+		nElapsedSecond += (nElapsedMinute * 60);
+		nElapsedSecond += (TimeSeconds(now) - TimeSeconds(m_dtTime));
 
 		if (nElapsedSecond < 0)
 		{
