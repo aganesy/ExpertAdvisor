@@ -11,60 +11,6 @@
 #include "..\_Include\Define.mqh"
 #include "TimeStamp.mq4"
 
-class CPositionInfoList //{{{
-{
-public:
-	CPositionInfoList()
-	{
-	}
-	~CPositionInfoList()
-	{
-	}
-
-	int length()
-	{
-		return ArrayRange(m_List, 0);
-	}
-
-	bool resize(int size)
-	{
-		ArrayResize(m_List, size);
-	}
-
-	void insert(int index, CPositionInfo element)
-	{
-		ArrayResize(m_List, ArrayRange(m_List, 0) + 1);
-		for (int i = ArrayRange(m_List, 0) - 1; i > index; i--){
-			m_List[i] = m_List[i - 1];
-		}
-
-		m_List[index] = element;
-	}
-
-	void delete(int index)
-	{
-		for (int i = index; i < ArrayRange(m_List, 0) - 1; i++){
-			m_List[i] = m_List[i + 1];
-		}
-
-		ArrayResize(ArrayRange(m_List, 0) - 1);
-	}
-
-	void push_back(CPositionInfo elemnt)
-	{
-		ArrayRisize(m_List, ArrayRange(m_List, 0) + 1);
-		m_List[ArrayRange(m_List, 0) - 1] = elemnt;
-	}
-	CPositionInfo GetElement(int index)
-	{
-		return m_List[index];
-	}
-
-private:
-	CPositionInfo  m_list[];
-
-}; //}}}
-
 class CPositionInfo //{{{
 {
 private:
@@ -110,7 +56,7 @@ public:
 	}
 
 	// Open
-	bool Open(int orderType, double lots)
+	bool Open(int orderType, double lots, string& comment = "", int slippage = 3, color arrowColor = Red)
 	{
 		bool bResult = false;
 		if (lots > 0.0)
@@ -125,28 +71,39 @@ public:
 					break;
 				}
 			}
-			if (!GetMagicNumber())
+
+			double dOrderPrice = 0;
+			if (GetMagicNumber())
 			{
 				switch (orderType)
 				{
 				case OP_BUY:
 				case OP_BUYLIMIT:
 				case OP_BUYSTOP:
-					SetOrderPrice(Bid);
-					SetOrderComment("Buy");
+					dOrderPrice = Ask;
+					if (StringLen(comment) == 0)
+					{
+						comment = "Buy";
+					}
 					break;
 
 				case OP_SELL:
 				case OP_SELLLIMIT:
 				case OP_SELLSTOP:
-					SetOrderPrice(Ask);
-					SetOrderComment("Sell");
+					dOrderPrice = Bid;
+					if (StringLen(comment) == 0)
+					{
+						comment = "Sell";
+					}
 					break;
 
 				default:
 					break;
 				}
-				bResult =  OrderSend(Symbol(), orderType, lots, GetOrderPrice(), 3, 0, 0, GetOrderComment(), GetMagicNumber(), 0, Red);
+
+				SetOrderPrice(dOrderPrice);
+				SetOrderComment(comment);
+				bResult =  OrderSend(Symbol(), orderType, lots, GetOrderPrice(), slippage, 0, 0, GetOrderComment(), GetMagicNumber(), 0, arrowColor);
 
 				OrderSelect(OrdersTotal() - 1, SELECT_BY_POS, MODE_TRADES);
 				SetTicketNumber(OrderTicket());
@@ -158,7 +115,7 @@ public:
 	}
 
 	// Close
-	bool Close()
+	bool Close(color arrowColor = Blue)
 	{
 		bool bResult = false;
 		if (OrderSelect(GetTicketNumber(), SELECT_BY_TICKET, MODE_TRADES))
@@ -182,7 +139,7 @@ public:
 				break;
 			}
 
-			bResult = OrderClose(GetTicketNumber(), OrderLots(), dClosePrice, 3, Blue);
+			bResult = OrderClose(GetTicketNumber(), OrderLots(), dClosePrice, 3, arrowColor);
 		}
 
 		return bResult;
@@ -332,7 +289,7 @@ public:
 	{
 		m_strOrderComment = comment;
 	}
-	double GetOrderComment()
+	string GetOrderComment()
 	{
 		return m_strOrderComment;
 	}
@@ -356,5 +313,59 @@ public:
 	{
 		return m_cTimeStamp;
 	}
+}; //}}}
+
+class CPositionInfoList //{{{
+{
+public:
+	CPositionInfoList()
+	{
+	}
+	~CPositionInfoList()
+	{
+	}
+
+	int length()
+	{
+		return ArrayRange(m_List, 0);
+	}
+
+	bool resize(int size)
+	{
+		ArrayResize(m_List, size);
+	}
+
+	void insert(int index, CPositionInfo element)
+	{
+		ArrayResize(m_List, ArrayRange(m_List, 0) + 1);
+		for (int i = ArrayRange(m_List, 0) - 1; i > index; i--){
+			m_List[i] = m_List[i - 1];
+		}
+
+		m_List[index] = element;
+	}
+
+	void delete(int index)
+	{
+		for (int i = index; i < ArrayRange(m_List, 0) - 1; i++){
+			m_List[i] = m_List[i + 1];
+		}
+
+		ArrayResize(ArrayRange(m_List, 0) - 1);
+	}
+
+	void push_back(CPositionInfo elemnt)
+	{
+		ArrayRisize(m_List, ArrayRange(m_List, 0) + 1);
+		m_List[ArrayRange(m_List, 0) - 1] = elemnt;
+	}
+	CPositionInfo GetElement(int index)
+	{
+		return m_List[index];
+	}
+
+private:
+	CPositionInfo  m_list[];
+
 }; //}}}
 
