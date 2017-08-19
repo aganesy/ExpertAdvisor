@@ -34,8 +34,8 @@ private:
 public:
 	CPositionInfo()
 	{
-		m_bIsSLRelease = false;
-		m_bIsTPRelease = false;
+		m_bIsSLRelease		= false;
+		m_bIsTPRelease		= false;
 
 		m_nMagicNumber		= 0;
 		m_nTicketNumber		= 0;
@@ -59,7 +59,11 @@ public:
 	bool Open(int orderType, double lots, string& comment = "", int slippage = 3, color arrowColor = Red)
 	{
 		bool bResult = false;
-		if (lots > 0.0)
+		if (lots == 0.0)
+		{
+			print("Warning Lot=0.0");
+		}
+		else
 		{
 			string strVarName = "";
 			for (int i = 1; i < MAX_INT_COUNT; i++) {
@@ -103,7 +107,7 @@ public:
 
 				SetOrderPrice(dOrderPrice);
 				SetOrderComment(comment);
-				bResult =  OrderSend(Symbol(), orderType, lots, GetOrderPrice(), slippage, 0, 0, GetOrderComment(), GetMagicNumber(), 0, arrowColor);
+				bResult = OrderSend(Symbol(), orderType, lots, GetOrderPrice(), slippage, 0, 0, GetOrderComment(), GetMagicNumber(), 0, arrowColor);
 
 				OrderSelect(OrdersTotal() - 1, SELECT_BY_POS, MODE_TRADES);
 				SetTicketNumber(OrderTicket());
@@ -118,7 +122,13 @@ public:
 	bool Close(color arrowColor = Blue)
 	{
 		bool bResult = false;
-		if (OrderSelect(GetTicketNumber(), SELECT_BY_TICKET, MODE_TRADES))
+
+		bool nOrderResult = OrderSelect(GetTicketNumber(), SELECT_BY_TICKET, MODE_TRADES);
+		if (!nOrderResult)
+		{
+			print("Error Order select failed : ", GetLastError());
+		}
+		else
 		{
 			double dClosePrice = 0.0;
 			switch (OrderType())
@@ -160,16 +170,16 @@ public:
 		case OP_BUYLIMIT:
 		case OP_BUYSTOP:
 			nNowPrice = Bid;
-			// SLLevel が現在価格を超えていれば
-			// 　→ 新しい SLLevel をセット
-			// 　→ SLLevel が超えたフラグを立てる
-			if (m_dSLPrice + m_dSLLevel < dNowPrice){
+			// 現在価格が SL価格 + SLレベル より高い状態なら
+			// 　→ 新しい SLPrice をセット
+			// 　→ SLLevel を超えたフラグを立てる
+			if (dNowPrice > m_dSLPrice + m_dSLLevel){
 				m_dSLPrice = dNowPrice - m_dSLLevel;
 				m_bIsSLRelease = true;
 			}
-			// フラグが立っている && SLLevel が現在価格を割っている
+			// フラグが立っている && 現在価格が SL価格 を割っている
 			// 　→ リリースしましょう
-			else if (m_bIsSLRelease && m_dSLPrice > dNowPrice){
+			else if (m_bIsSLRelease && dNowPrice < m_dSLPrice){
 				// リリースする
 				bResult = true;
 			}
@@ -179,16 +189,16 @@ public:
 		case OP_SELLLIMIT:
 		case OP_SELLSTOP:
 			nNowPrice = Ask;
-			// SLLevel が現在価格を超えていれば
-			// 　→ 新しい SLLevel をセット
-			// 　→ SLLevel が超えたフラグを立てる
-			if (m_dSLPrice + m_dSLLevel > dNowPrice){
+			// 現在価格が SL価格 + SLレベル より低い状態なら
+			// 　→ 新しい SLPrice をセット
+			// 　→ SLLevel を超えたフラグを立てる
+			if (dNowPrice < m_dSLPrice - m_dSLLevel){
 				m_dSLPrice = dNowPrice + m_dSLLevel;
 				m_bIsSLRelease = true;
 			}
-			// フラグが立っている && SLLevel が現在価格を割っている
+			// フラグが立っている && 現在価格が SL価格 を超えている
 			// 　→ リリースしましょう
-			else if (m_bIsSLRelease && m_dSLPrice < dNowPrice){
+			else if (m_bIsSLRelease && dNowPrice > m_dSLPrice){
 				// リリースする
 				bResult = true;
 			}
@@ -221,37 +231,37 @@ public:
 	// Stop Loss
 	void SetStopLossPrice(double price)
 	{
-		m_nSLPrice = price;
+		m_dSLPrice = price;
 	}
 	int GetStopLossPrice()
 	{
-		return m_nSLPrice;
+		return m_dSLPrice;
 	}
 	void SetStopLossLevel(double level)
 	{
-		m_nSLLevel = level;
+		m_dSLLevel = level;
 	}
 	int GetStopLossLevel()
 	{
-		return m_nSLLevel;
+		return m_dSLLevel;
 	}
 
 	// Take Profit
 	void SetTakeProfitPrice(double price)
 	{
-		m_nTPPrice = price;
+		m_dTPPrice = price;
 	}
 	int GetTakeProfitPrice()
 	{
-		return m_nTPPrice;
+		return m_dTPPrice;
 	}
 	void SetTakeProfitLevel(double level)
 	{
-		m_nTPLevel = level;
+		m_dTPLevel = level;
 	}
 	int GetTakeProfitLevel()
 	{
-		return m_nTPLevel;
+		return m_dTPLevel;
 	}
 
 	// Magic Number
