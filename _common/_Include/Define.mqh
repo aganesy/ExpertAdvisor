@@ -31,5 +31,5 @@
 #define QUAT			4
 
 // Size
-#define LONG_MAX_COUNT	0xFFFFFFF;
+#define LONG_MAX_COUNT	0xFFFFFFF
 
