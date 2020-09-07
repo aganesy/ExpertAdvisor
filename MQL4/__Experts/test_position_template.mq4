@@ -1,0 +1,1 @@
+C:/Users/y_senaga/Personal/ExpertAdvisor/MQL4/__test/test_position_template.mq4

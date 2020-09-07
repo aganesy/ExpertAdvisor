@@ -61,7 +61,6 @@ double PIPS(int n)
 	else if (Symbol()=="GBPCAD"){ret = n * 0.00001;}
 	else if (Symbol()=="GBPCHF"){ret = n * 0.00001;}
 	else if (Symbol()=="GBPUSD"){ret = n * 0.00001;}
-	else if (Symbol()=="GBPAUD"){ret = n * 0.00001;}
 	else if (Symbol()=="CADCHF"){ret = n * 0.00001;}
 	else if (Symbol()=="NZDUSD"){ret = n * 0.00001;}
 	

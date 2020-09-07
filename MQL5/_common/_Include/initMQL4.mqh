@@ -98,3 +98,22 @@ ENUM_TIMEFRAMES TFMigrate(int tf)
         default: return(PERIOD_CURRENT);
     }
 }
+
+extern double Ask;
+extern double Bid;
+
+void UpdateChartInfomation()
+{
+    MqlTick last_tick;
+    //---
+    if(SymbolInfoTick(Symbol(),last_tick))
+    {
+        //Print(last_tick.time,": Bid = ",last_tick.Bid,
+        //" Ask = ",last_tick.ask,"  Volume = ",last_tick.volume);
+        Ask = last_tick.ask;
+        Bid = last_tick.bid;
+    }
+    else {
+        Print("SymbolInfoTick() failed, error = ",GetLastError());
+    }
+}
