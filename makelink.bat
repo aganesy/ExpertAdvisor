@@ -1,1 +1,1 @@
-mklink /D "C:\Users\y_senaga\AppData\Roaming\MetaQuotes\Terminal\FB9A56D617EDDDFE29EE54EBEFFE96C1\MQL5\Experts\personal_senaga" "C:\Users\y_senaga\Personal\ExpertAdvisor\MQL5"
+mklink /D "C:\Users\Administrator\AppData\Roaming\MetaQuotes\Terminal\2FA8A7E69CED7DC259B1AD86A247F675\MQL5\Experts\personal_senaga" "C:\aganesy\ExpertAdvisor\MQL5"
